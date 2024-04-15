@@ -5,7 +5,6 @@ app = Flask(__name__)
 @app.route('/')
 def home():
     return "Welcome to the Nom API! Let's Eat!"
-
 users = {}  # A dict to store users for demo purposes
 
 @app.route('/register', methods=['POST'])
