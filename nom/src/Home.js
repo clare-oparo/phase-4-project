@@ -8,7 +8,7 @@ const Home = () => {
         Welcome to Nom!
       </Typography>
       <Typography variant="body1" gutterBottom>
-        This is a community for cooking enthusiasts to share and explore recipes from around the world.
+        Nom is a community for cooking enthusiasts to share and explore recipes from around the world.
         Feel free to post your own recipes and comment on others' to exchange cooking tips and ideas!
       </Typography>
     </Box>
