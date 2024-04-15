@@ -12,7 +12,7 @@ with app.app_context():
 
 @app.route('/')
 def home():
-    return "Welcome to Nom!"
+    return "Welcome to Nom, pick a recipe!"
 
 @app.route('/register', methods=['POST'])
 def register():
