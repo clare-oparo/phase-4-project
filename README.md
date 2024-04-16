@@ -69,9 +69,9 @@ flask run or python3 app.py(after navigating into server)
 ## Authors :black_nib:
 
 - **Nestor Masinde** <[Nest05](https://github.com/Nest05)>
-- **Clare Oparo** <[Nest05](https://github.com/clare-oparo)>
-- **Archibald Mulei** <[Nest05](https://github.com/ArchyMulei)>
-- **Anne Irungu** <[Nest05](https://github.com/Lengthy-Monarchy)>
+- **Clare Oparo** <[clare-oparo](https://github.com/clare-oparo)>
+- **Archibald Mulei** <[ArchyMulei](https://github.com/ArchyMulei)>
+- **Anne Irungu** <[Lengthy-Monarchy](https://github.com/Lengthy-Monarchy)>
 
 # License
 
