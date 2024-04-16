@@ -10,7 +10,7 @@ const ProfileView = () => {
     const userId = sessionStorage.getItem('userId'); 
 
     useEffect(() => {
-        fetch(`http://localhost:5000/users/${userId}/profile`, {
+        fetch(`http://127.0.0.1:5000/users/${userId}/profile`, {
             credentials: 'include', 
         })
         .then(response => response.json())

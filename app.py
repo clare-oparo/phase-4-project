@@ -6,12 +6,24 @@ from flask_migrate import Migrate
 from flask_cors import CORS 
 
 app = Flask(__name__)
+CORS(app)
+
+# Handles preflight requests
+@app.route('/register', methods=['OPTIONS'])
+def options():
+    response = jsonify({'message': 'OK'})
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    response.headers.add('Access-Control-Allow-Headers', 'Content-Type,Authorization')
+    response.headers.add('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS')
+    return response
+
 app.config['SECRET_KEY'] = 'nomnomnom'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///nomnom.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
-CORS(app)
+
 auth = HTTPBasicAuth()
 
 class User(db.Model):
@@ -52,7 +64,7 @@ class Reply(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     comment_id = db.Column(db.Integer, db.ForeignKey('comment.id'))
 
-@app.route('/users', methods=['POST'])
+@app.route('/register', methods=['POST'])
 def create_user():
     data = request.json
     user = User(username=data['username'], email=data['email'])

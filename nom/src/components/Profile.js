@@ -41,7 +41,7 @@ const Profile = () => {
         }
 
         // Submit the profile data to the server
-        fetch(`http://localhost:5000/users/${userId}/profile`, {
+        fetch(`http://127.0.0.1:5000/users/${userId}/profile`, {
             method: 'PUT',
             body: formData,
             credentials: 'include',  // Include cookies in the request for session handling
