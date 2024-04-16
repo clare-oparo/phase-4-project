@@ -4,7 +4,8 @@
 - Nom is a vibrant social media platform tailored specifically for passionate cooking aficionados. 
 - It serves as a digital haven where food lovers from all walks of life gather to share their culinary adventures, recipes, and kitchen triumphs. 
 - Whether you're a seasoned chef or an enthusiastic home cook, Nom provides a welcoming space to connect, inspire, and explore the world of gastronomy. 
-- With features designed to foster creativity and community engagement, Nom encourages users to showcase their culinary creations through photos, videos, and step-by-step tutorials. - From mouthwatering dishes to innovative cooking techniques, Nom is the ultimate destination for those who find joy in the art of cooking and the pleasure of sharing delicious food with others.
+- With features designed to foster creativity and community engagement, Nom encourages users to showcase their culinary creations through photos, videos, and step-by-step tutorials. 
+- From mouthwatering dishes to innovative cooking techniques, Nom is the ultimate destination for those who find joy in the art of cooking and the pleasure of sharing delicious food with others.
 
 ## Requirements :bulb:
 For this project, you must:
