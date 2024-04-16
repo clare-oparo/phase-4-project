@@ -23,12 +23,33 @@ class User(db.Model):
     bio = db.Column(db.String(500), default='')
     favorite_food = db.Column(db.String(200), default='')
     profile_picture = db.Column(db.String(255), default='')
+    recipes = db.relationship('Recipe', backref='author', lazy=True)
 
     def hash_password(self, password):
         self.password_hash = pwd_context.encrypt(password)
 
     def verify_password(self, password):
         return pwd_context.verify(password, self.password_hash)
+
+class Recipe(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(100), nullable=False)
+    description = db.Column(db.Text, nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    comments = db.relationship('Comment', backref='recipe', lazy=True)
+
+class Comment(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    text = db.Column(db.Text, nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    recipe_id = db.Column(db.Integer, db.ForeignKey('recipe.id'), nullable=False)
+    replies = db.relationship('Reply', backref='comment', lazy=True)
+
+class Reply(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    text = db.Column(db.Text, nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    comment_id = db.Column(db.Integer, db.ForeignKey('comment.id'), nullable=False)
 
 @app.route('/register', methods=['POST'])
 def new_user():
