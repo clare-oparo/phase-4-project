@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button, TextField, Typography, Box, Container, Avatar, Stack, Chip } from '@mui/material';
+import { Button, TextField, Typography, Box, Container, Avatar, Stack } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { useNavigate } from 'react-router-dom';
 
@@ -14,6 +14,7 @@ const Profile = () => {
         profilePic: null
     });
     const navigate = useNavigate();
+    const userId = sessionStorage.getItem('userId');  // Retrieve the user ID from session storage
 
     const handleInputChange = (event) => {
         const { name, value } = event.target;
@@ -32,24 +33,42 @@ const Profile = () => {
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        // Handle the submission logic here
-        console.log('Profile Data:', profileData);
-        // navigate to another route if needed
+        const formData = new FormData();
+        formData.append('bio', profileData.bio);
+        formData.append('favorite_food', profileData.favorite_food);
+        if (profileData.profilePic) {
+            formData.append('profilePic', profileData.profilePic, profileData.profilePic.name);
+        }
+
+        // Submit the profile data to the server
+        fetch(`http://localhost:5000/users/${userId}/profile`, {
+            method: 'PUT',
+            body: formData,
+            credentials: 'include',  // Include cookies in the request for session handling
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log('Success:', data);
+            navigate('/dashboard');  // Redirect to the dashboard after successful profile update
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
     };
 
     return (
         <Container component="main" maxWidth="sm">
             <Box sx={{ marginTop: 8, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                 <Typography component="h1" variant="h5">
-                    Complete Your Profile
+                    Update Your Profile
                 </Typography>
                 <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+                    <Avatar src={profileData.profilePic ? URL.createObjectURL(profileData.profilePic) : null} sx={{ width: 90, height: 90 }}/>
                     <Stack direction="row" alignItems="center" spacing={2}>
-                        <Avatar src={profileData.profilePic ? URL.createObjectURL(profileData.profilePic) : null} sx={{ width: 56, height: 56 }}/>
                         <label htmlFor="contained-button-file">
-                            <Input accept="image/*" id="contained-button-file" multiple type="file" onChange={handleFileChange}/>
+                            <Input accept="image/*" id="contained-button-file" type="file" onChange={handleFileChange}/>
                             <Button variant="contained" component="span">
-                                Upload
+                                Upload Picture
                             </Button>
                         </label>
                     </Stack>
@@ -59,31 +78,27 @@ const Profile = () => {
                         name="bio"
                         label="Bio"
                         type="text"
-                        id="bio"
-                        autoComplete="bio"
                         value={profileData.bio}
                         onChange={handleInputChange}
                     />
                     <TextField
                         margin="normal"
                         fullWidth
-                        name="interests"
-                        label="What is your favorite food?"
+                        name="favorite_food"
+                        label="Favorite Food"
                         type="text"
-                        id="favorite_food"
-                        autoComplete="favorite food"
-                        value={profileData.interests}
+                        value={profileData.favorite_food}
                         onChange={handleInputChange}
                     />
                     <Button
                         type="submit"
                         fullWidth
                         variant="contained"
+                        color="primary"
                         sx={{ mt: 3, mb: 2 }}
                     >
                         Save Profile
                     </Button>
-                    <Chip label="Follow Chefs" onClick={() => navigate('/explore-chefs')} variant="outlined" sx={{ mt: 2 }} />
                 </Box>
             </Box>
         </Container>

@@ -1,29 +1,46 @@
 import React, { useState } from 'react';
-import { Button, TextField, Typography, Box, Container } from '@mui/material';
+import { Button, TextField, Typography, Box, Container, Alert } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
     const [credentials, setCredentials] = useState({
-        username: '',  // Can be used for both username or email
+        username: '',  
         password: ''
     });
-    const navigate = useNavigate();  // Handle navigation
+    const [error, setError] = useState('');  
+    const navigate = useNavigate();  
 
     const handleChange = (event) => {
-        const { name, value } = event.target;
+        const { name, value } = event.target;  
         setCredentials(prev => ({
             ...prev,
-            [name]: value
+            [name]: value  
         }));
     };
 
     const handleSubmit = (event) => {
-        event.preventDefault();
-        // Handle login verification
-        console.log('Login Attempt:', credentials);
-
-        // Simulate successful login:
-        navigate('/profile');  // Redirect to the user's profile page on successful login
+        event.preventDefault();  
+        
+        fetch('http://localhost:5000/login', { 
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(credentials) 
+        })
+        .then(response => response.json())  
+        .then(data => {
+            if (data.success) {
+                sessionStorage.setItem('userId', data.userId);  
+                navigate('/profile');  
+            } else {
+                setError(data.message || 'Invalid username or password');  
+            }
+        })
+        .catch(error => {
+            console.error('Login error:', error);
+            setError('Failed to connect to the server.');  
+        });
     };
 
     return (
@@ -74,6 +91,7 @@ const Login = () => {
                     >
                         Sign In
                     </Button>
+                    {error && <Alert severity="error">{error}</Alert>} 
                 </Box>
             </Box>
         </Container>
@@ -81,4 +99,3 @@ const Login = () => {
 };
 
 export default Login;
-

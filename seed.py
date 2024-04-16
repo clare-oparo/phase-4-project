@@ -1,9 +1,8 @@
-from app import db, User  # Make sure to import the db and User from your Flask app
-from app import app  # Import the Flask app itself
+from app import db, User, app  
 
 def insert_sample_data():
-    """Inserts sample data into the database."""
-    # Define a list of users to add to the database
+    """Add sample data to the database."""
+   
     sample_users = [
         User(username='alice', email='alice@example.com', bio='Loves to cook Italian food', favorite_food='Pasta', profile_picture='https://example.com/images/alice.jpg'),
         User(username='bob', email='bob@example.com', bio='Grill master, loves a good BBQ', favorite_food='BBQ Ribs', profile_picture='https://example.com/images/bob.jpg'),
@@ -17,17 +16,15 @@ def insert_sample_data():
         User(username='judy', email='judy@example.com', bio='Gourmet chef and wine taster', favorite_food='Wine', profile_picture='https://example.com/images/judy.jpg')
     ]
     
-    # Add all users to the database session
+    
     db.session.bulk_save_objects(sample_users)
-    # Commit the session to the database
     db.session.commit()
 
 def main():
     """Main function for running the script."""
-    with app.app_context():  # Use the application context
-        db.create_all()  # Create all tables
-        if not User.query.first():  # Check if any user exists to avoid duplicating data
-            insert_sample_data()  # Insert data if no users exist
+    with app.app_context(): 
+        if not User.query.first():  
+            insert_sample_data()  
 
 if __name__ == '__main__':
-    main()  # Execute the main function
+    main()  

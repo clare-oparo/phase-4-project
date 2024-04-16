@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Button, TextField, Typography, Box, Container, Alert } from '@mui/material';
-import { useNavigate } from 'react-router-dom';  // Import useNavigate
+import { useNavigate } from 'react-router-dom';  
 
 const Register = () => {
     const [formData, setFormData] = useState({
@@ -11,7 +11,7 @@ const Register = () => {
     const [error, setError] = useState('');
     const [success, setSuccess] = useState('');
 
-    const navigate = useNavigate();  // Initialize navigate function
+    const navigate = useNavigate();  
 
     const handleChange = (event) => {
         const { name, value } = event.target;
@@ -27,20 +27,37 @@ const Register = () => {
             setError('Please fill in all fields');
             return;
         }
-        // Here, you would typically handle the API call for registration
+        
         console.log('Submitted Data:', formData);
 
-        // Simulate successful registration:
-        // Set the registration success state
-        setSuccess('Registration Successful! Redirecting to login...');
-        setError('');
+        // POST request to backend
+        fetch('http://localhost:5000/register', {  
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(formData)
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                setSuccess('Registration Successful! Redirecting to login...');
+                setError('');
+                setTimeout(() => {
+                    navigate('/login'); 
+                }, 2000);  
+            } else {
+                setError(data.message || 'Registration failed');
+                setSuccess('');
+            }
+        })
+        .catch(error => {
+            console.error('There was an error!', error);
+            setError('Failed to connect to the server.');
+            setSuccess('');
+        });
 
-        // Simulate API response delay and redirect
-        setTimeout(() => {
-            navigate('/login');  // Redirect to the login page after registration
-        }, 2000);  // Redirect after 2 seconds
-
-        // Clear form data (optional)
+    
         setFormData({
             username: '',
             email: '',
