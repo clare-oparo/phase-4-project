@@ -21,10 +21,10 @@ class User(db.Model, SerializerMixin):
     email = db.Column(db.String(100), unique=True, nullable=False)
     details = db.relationship('UserDetail', backref='users', uselist=False, cascade='all, delete-orphan')
     saved_recipes = db.relationship('SavedRecipe', backref='users', lazy=True, cascade='all, delete-orphan')
-    comments = db.relationship('Comment', backref='users', lazy=True)
+    comments = db.relationship('Comment', backref='users', lazy=True, cascade='all, delete-orphan')
 
     # Add serialization
-    serialize_rules = ('-details.user', '-saved_recipes.user', '-comments.user',)
+    serialize_rules = ('-details', '-saved_recipes', '-comments',)
 
     def __repr__(self):
         return f"<User {self.username}>"
@@ -40,7 +40,7 @@ class UserDetail(db.Model, SerializerMixin):
     username_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False, unique=True)
 
     # Add serialization
-    serialize_rules = ('-user.user_details',)   
+    serialize_rules = ('-user',)   
 
     def __repr__(self):
         return f"<UserDetail {self.id}>"
@@ -57,7 +57,7 @@ class Recipe(db.Model, SerializerMixin):
     comments = db.relationship('Comment', backref='recipes', lazy=True, cascade='all, delete-orphan')
 
     # Add serialization
-    serialize_rules = ('-user.recipes', '-comments.recipe',)    
+    serialize_rules = ('-user', '-comments',)    
 
     def __repr__(self):
         return f"<Recipe {self.id}>"
@@ -71,7 +71,7 @@ class SavedRecipe(db.Model, SerializerMixin):
     date_time = db.Column(db.DateTime, default=datetime.now(timezone.utc))
 
     # Add serialization
-    serialize_rules = ('-user.saved_recipes',)    
+    serialize_rules = ('-user', '-recipe',)    
 
     def __repr__(self):
         return f"<SavedRecipe( {self.id}>"
@@ -87,9 +87,10 @@ class Comment(db.Model, SerializerMixin):
     date_time = db.Column(db.DateTime, default=datetime.now(timezone.utc))
 
     # Add serialization
-    serialize_rules = ('-user.comments', '-recipe.comments',)   
+    serialize_rules = ('-user', '-recipe',)   
 
     def __repr__(self):
         return f"<Comment {self.id}>"
+    
 
 

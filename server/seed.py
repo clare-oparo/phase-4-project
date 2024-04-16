@@ -1,9 +1,15 @@
 from datetime import datetime, timezone
-from random import randint
+from random import randint, choice
 from faker import Faker
 from app import *
 
 fake = Faker()
+
+def get_random_image():
+    image_folder = "images"
+    images = [f for f in os.listdir(image_folder) if os.path.isfile(os.path.join(image_folder, f))]
+    return os.path.join(image_folder, choice(images))
+
 if __name__ == '__main__':
     with app.app_context():
         print("Clearing db...")
@@ -42,7 +48,8 @@ if __name__ == '__main__':
             ingredients = "\n".join(fake.sentences(nb=3))
             instructions = "\n".join(fake.sentences(nb=5))
             rating = randint(1, 5) + randint(0, 9) * 0.1  # Random rating between 1.0 and 5.9
-            recipe = Recipe(name=name, ingredients=ingredients, instructions=instructions, rating=rating)
+            image = get_random_image()
+            recipe = Recipe(name=name, ingredients=ingredients, instructions=instructions, rating=rating, images=image)
             db.session.add(recipe)
 
             for _ in range(randint(0, 10)):  # Random number of comments for each recipe

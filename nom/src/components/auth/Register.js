@@ -1,96 +1,121 @@
 import React, { useState } from 'react';
-import { Formik, Form, Field } from 'formik';
-import * as Yup from 'yup';
-import { TextField, Button, Typography, Box, CircularProgress, Alert } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
-
-
-const RegistrationSchema = Yup.object().shape({
-    username: Yup.string()
-        .required('Username is required'),
-    email: Yup.string()
-        .email('Invalid email address')
-        .required('Email is required'),
-    password: Yup.string()
-        .min(6, 'Password must be at least 6 characters long')
-        .required('Password is required')
-});
+import { Button, TextField, Typography, Box, Container, Alert } from '@mui/material';
+import { useNavigate } from 'react-router-dom';  
 
 const Register = () => {
-    const navigate = useNavigate();
-    const [submitError, setSubmitError] = useState('');
+    const [formData, setFormData] = useState({
+        username: '',
+        email: '',
+        password: ''
+    });
+    const [error, setError] = useState('');
+    const [success, setSuccess] = useState('');
+
+    const navigate = useNavigate();  
+
+    const handleChange = (event) => {
+        const { name, value } = event.target;
+        setFormData(prevState => ({
+            ...prevState,
+            [name]: value
+        }));
+    };
+
+    const handleSubmit = (event) => {
+        event.preventDefault();
+        if (!formData.username || !formData.email || !formData.password) {
+            setError('Please fill in all fields');
+            return;
+        }
+        
+        console.log('Submitted Data:', formData);
+
+        // POST request to backend
+        fetch('http://127.0.0.1:5000/register', {  
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(formData)
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                setSuccess('Registration Successful! Redirecting to login...');
+                setError('');
+                setTimeout(() => {
+                    navigate('/login'); 
+                }, 2000);  
+            } else {
+                setError(data.message || 'Registration failed');
+                setSuccess('');
+            }
+        })
+        .catch(error => {
+            console.error('There was an error!', error);
+            setError('Failed to connect to the server.');
+            setSuccess('');
+        });
+
+    
+        setFormData({
+            username: '',
+            email: '',
+            password: ''
+        });
+    };
 
     return (
-        <Box sx={{ mt: 4, mx: "auto", width: 300, padding: 2, border: '1px solid #ccc', borderRadius: '5px' }}>
-            <Typography variant="h5" gutterBottom>
-                Register
-            </Typography>
-            <Formik
-                initialValues={{ username: '', email: '', password: '' }}
-                validationSchema={RegistrationSchema}
-                onSubmit={(values, { setSubmitting }) => {
-                    fetch('http://localhost:5000/register', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify(values)
-                    })
-                    .then(res => res.json())
-                    .then(data => {
-                        if (data.success) {
-                            navigate('/login');  
-                        } else {
-                            setSubmitError(data.message || 'Registration failed. Please try again.'); // Show error message from server
-                        }
-                        setSubmitting(false);
-                    })
-                    .catch(error => {
-                        console.error('Registration error:', error);
-                        setSubmitting(false);
-                        setSubmitError('Network error. Please try again later.');  // Network error fallback
-                    });
-                }}
-            >
-                {({ isSubmitting }) => (
-                    <Form>
-                        <Field
-                            component={TextField}
-                            name="username"
-                            label="Username"
-                            fullWidth
-                            margin="normal"
-                        />
-                        <Field
-                            component={TextField}
-                            name="email"
-                            type="email"
-                            label="Email"
-                            fullWidth
-                            margin="normal"
-                        />
-                        <Field
-                            component={TextField}
-                            name="password"
-                            type="password"
-                            label="Password"
-                            fullWidth
-                            margin="normal"
-                        />
-                        <Button
-                            type="submit"
-                            fullWidth
-                            variant="contained"
-                            color="primary"
-                            disabled={isSubmitting}
-                            sx={{ mt: 3, mb: 2 }}
-                        >
-                            {isSubmitting ? <CircularProgress size={24} /> : 'Register'}
-                        </Button>
-                        {submitError && <Alert severity="error">{submitError}</Alert>}
-                    </Form>
-                )}
-            </Formik>
-        </Box>
+        <Container maxWidth="sm">
+            <Box sx={{ marginTop: 8, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                <Typography component="h1" variant="h5">
+                    Register
+                </Typography>
+                <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+                   
+                    <TextField
+                        margin="normal"
+                        required
+                        fullWidth
+                        label="Preferred Username"
+                        name="username"
+                        value={formData.username}
+                        onChange={handleChange}
+                    />
+                    <TextField
+                        margin="normal"
+                        required
+                        fullWidth
+                        label="Email Address"
+                        name="email"
+                        type="email"
+                        value={formData.email}
+                        onChange={handleChange}
+                    />
+                    <TextField
+                        margin="normal"
+                        required
+                        fullWidth
+                        name="password"
+                        label="Password"
+                        type="password"
+                        value={formData.password}
+                        onChange={handleChange}
+                    />
+                    <Button
+                        type="submit"
+                        fullWidth
+                        variant="contained"
+                        sx={{ mt: 3, mb: 2 }}
+                    >
+                        Register
+                    </Button>
+                    {error && <Alert severity="error">{error}</Alert>}
+                    {success && <Alert severity="success">{success}</Alert>}
+                </Box>
+            </Box>
+        </Container>
     );
-}
+};
 
 export default Register;
