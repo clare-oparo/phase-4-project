@@ -57,6 +57,15 @@ class Recipe(db.Model, SerializerMixin):
     comments = db.relationship('Comment', backref='recipes', lazy=True, cascade='all, delete-orphan')
 
     # Add serialization
+
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "name": self.name,
+            "ingredients": self.ingredients,
+            "instructions": self.instructions  
+    }
+
     serialize_rules = ('-user', '-comments',)    
 
     def __repr__(self):
