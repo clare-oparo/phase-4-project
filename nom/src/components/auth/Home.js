@@ -4,12 +4,7 @@ import { Link } from 'react-router-dom';
 
 
 const Home = () => {
-    // const [darkMode, setDarkMode] = useState(false);
-
-    // Toggling dark mode
-    // useEffect(() => {
-     //   document.body.className = darkMode ? 'dark-mode' : 'light-mode';
-   // }, [darkMode]);
+    
 
     // Sample recipe data with names and images
     const recipes = [
@@ -30,10 +25,10 @@ const Home = () => {
                         Welcome to Nom!
                     </Typography>
                     <Typography variant="body1" gutterBottom style={{ fontSize: '1.8rem', color: '#FFF' }}>
-                        Nom is a vibrant social media platform tailored specifically for passionate cooking aficionados.
+                        We are a vibrant community for anyone who loves cooking!
                     </Typography>
                     <Button variant="contained" color="primary" component={Link} to="/register" style={{ marginTop: '2rem' }}>
-                        Join Now
+                        Join Us
                     </Button>
                 </Box>
 
@@ -80,10 +75,7 @@ const Home = () => {
                         About Nom
                     </Typography>
                     <Typography variant="body1" gutterBottom style={{ fontSize: '1.6rem', color: '#FFF' }}>
-                        It serves as a digital haven where food lovers from all walks of life gather to share their
-                        culinary adventures, recipes, and kitchen triumphs. Whether you're a seasoned chef or an
-                        enthusiastic home cook, Nom provides a welcoming space to connect, inspire, and explore the world
-                        of gastronomy.
+                        Search for recipes, try them out and leave a comment on your favorites!
                     </Typography>
                 </Box>
             </Box>
@@ -94,7 +86,7 @@ const Home = () => {
                     {recipes.map((recipe, index) => (
                         <Grid item key={index}>
                             <Card style={{ maxWidth: 300 }}>
-                                <CardActionArea>
+                                <CardActionArea component={Link} to={`/recipe/${recipe.id}`}>
                                     <CardMedia
                                         component="img"
                                         height="200"
