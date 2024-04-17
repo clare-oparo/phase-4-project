@@ -4,7 +4,9 @@ from flask_migrate import Migrate
 from models import *
 import bcrypt
 import os
-from flask_cors import CORS
+from flask_cors import CORS 
+from models import Recipe
+
 
 BASE_DIR = os.path.abspath(os.path.dirname(__file__))
 DATABASE = os.environ.get(
@@ -156,6 +158,14 @@ def manage_user_recipe(username, recipe_id):
         db.session.delete(recipe)
         db.session.commit()
         return jsonify({'message': 'Recipe deleted successfully'})
+
+@app.route('/recipes/<int:recipe_id>', methods=['GET'])
+def get_recipe_by_id(recipe_id):
+    recipe = Recipe.query.get(recipe_id)
+    if not recipe:
+        return jsonify({'message': 'Recipe not found'}), 404
+    return jsonify({'recipe': recipe.to_dict()})
+
 
 @app.route('/<username>/comments', methods=['GET', 'POST'])
 @login_required

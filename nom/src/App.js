@@ -6,6 +6,7 @@ import Login from './components/auth/Login';
 import Register from './components/auth/Register';
 import SearchResults from "./components/SearchResults";
 import Footer from './components/Footer';
+import RecipePage from './components/RecipePage';
 
 function App() {
     return (
@@ -16,6 +17,7 @@ function App() {
                 <Route path="/login" element={<Login />} />
                 <Route path="/register" element={<Register />} />
                 <Route path="/search" element={<SearchResults />} />
+                <Route path="/recipes/:recipeId" element={RecipePage} />
                 
                 {/* other routes */}
             </Routes>
