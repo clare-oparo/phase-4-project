@@ -32,7 +32,7 @@ const Login = () => {
         .then(data => {
             if (data.success) {
                 sessionStorage.setItem('userId', data.userId);  
-                navigate('/profile');  
+                navigate('/home');  
             } else {
                 setError(data.message || 'Invalid username or password');  
             }

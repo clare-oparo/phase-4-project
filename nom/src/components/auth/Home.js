@@ -2,7 +2,15 @@ import React from 'react';
 import { Button, Typography, Box, Grid, Card, CardActionArea, CardMedia } from '@mui/material';
 import { Link } from 'react-router-dom';
 
+
 const Home = () => {
+    // const [darkMode, setDarkMode] = useState(false);
+
+    // Toggling dark mode
+    // useEffect(() => {
+     //   document.body.className = darkMode ? 'dark-mode' : 'light-mode';
+   // }, [darkMode]);
+
     // Sample recipe data with names and images
     const recipes = [
         { name: 'Pasta Carbonara', image: 'https://cdn.pixabay.com/photo/2022/10/10/11/46/fish-7511640_640.jpg' },

@@ -198,7 +198,7 @@ def get_image(image_name):
     # Send the image file as a response
     return send_file(image_path)
 
-@app.route('/search')
+@app.route('/search'0)
 def search():
     query = request.args.get('query', '')
     if query:
