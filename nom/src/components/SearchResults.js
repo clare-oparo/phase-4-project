@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { TextField, Button, Card, CardContent, Typography } from '@mui/material';
+import { Link as RouterLink } from 'react-router-dom';
 
 function useQuery() {
     return new URLSearchParams(useLocation().search);
@@ -32,6 +33,7 @@ const SearchResults = () => {
                         <Typography color="textSecondary">{recipe.instructions}</Typography>
                         <Typography color='textSecondary'>{recipe.rating}</Typography>
                     </CardContent>
+                    <Button  component={RouterLink} to="/register" sx={{ color: '#FF5733' }}>Comment</Button>
                 </Card>
             ))}
         </div>
