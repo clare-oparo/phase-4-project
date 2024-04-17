@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
-import { AppBar, Toolbar, Typography, Button, IconButton, Menu, MenuItem } from '@mui/material';
+import { AppBar, Toolbar, Typography, Button, IconButton, Menu, MenuItem, TextField } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
-import { Link as RouterLink } from 'react-router-dom';
+import SearchIcon from '@mui/icons-material/Search';
+import { Link as RouterLink, useNavigate } from 'react-router-dom';
 
 const Navbar = () => {
     const [anchorEl, setAnchorEl] = useState(null);
+    const [search, setSearch] = useState('');
+    const navigate = useNavigate();
     const open = Boolean(anchorEl);
 
     const handleMenu = (event) => {
@@ -15,8 +18,17 @@ const Navbar = () => {
         setAnchorEl(null);
     };
 
+    const handleSearchChange = (event) => {
+        setSearch(event.target.value);
+    };
+
+    const handleSearch = () => {
+        navigate(`/search?query=${search}`);
+        setSearch('');  // Clear search input
+    };
+
     return (
-        <AppBar position="static">
+        <AppBar position="static" sx={{ background: 'linear-gradient(45deg, #FFA726 30%, #FFCA28 90%)' }}>
             <Toolbar>
                 <IconButton
                     size="large"
@@ -47,12 +59,25 @@ const Navbar = () => {
                     <MenuItem onClick={handleClose} component={RouterLink} to="/login">Login</MenuItem>
                     <MenuItem onClick={handleClose} component={RouterLink} to="/register">Register</MenuItem>
                 </Menu>
-                <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+                <Typography variant="h4" component="div" sx={{ flexGrow: 1, color: 'white' }}>
                     Nom
                 </Typography>
-                <Button color="inherit" component={RouterLink} to="/">Home</Button>
-                <Button color="inherit" component={RouterLink} to="/login">Login</Button>
-                <Button color="inherit" component={RouterLink} to="/register">Register</Button>
+                <TextField
+                    variant="outlined"
+                    size="small"
+                    value={search}
+                    onChange={handleSearchChange}
+                    placeholder="Find a recipe or ingredient"
+                    sx={{ mr: 2, width: '50%', bgcolor: 'white', borderRadius: '20px' }}
+                    
+                />
+                <IconButton onClick={handleSearch} sx={{ color: 'white' }}>
+                    <SearchIcon /> {/* SearchIcon is here */}
+                </IconButton>
+                
+                <Button color="inherit" component={RouterLink} to="/" sx={{ color: 'white' }}>Home</Button>
+                <Button color="inherit" component={RouterLink} to="/login" sx={{ color: 'white' }}>Login</Button>
+                <Button color="inherit" component={RouterLink} to="/register" sx={{ color: 'white' }}>Register</Button>
             </Toolbar>
         </AppBar>
     );
