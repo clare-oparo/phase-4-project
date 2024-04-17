@@ -198,6 +198,41 @@ def get_image(image_name):
     # Send the image file as a response
     return send_file(image_path)
 
+@app.route('/search')
+def search():
+    query = request.args.get('query', '')
+    if query:
+        
+        recipes = Recipe.query.filter(
+            (Recipe.name.ilike(f'%{query}%')) | (Recipe.ingredients.ilike(f'%{query}%'))
+        ).all()
+        return jsonify([recipe.to_dict() for recipe in recipes])
+    else:
+        return jsonify([])
+
+def add_recipes():
+    # Ensure you have a user with this ID or adjust accordingly
+    user = User.query.first()
+    if not user:
+        print("No users found. Please add a user first.")
+        return
+
+    # Define some sample recipes
+    recipes = [
+        Recipe(name="Spaghetti Carbonara", ingredients="Pasta, Eggs, Parmesan, Bacon", instructions="Cook pasta, fry bacon, mix with eggs and cheese", rating=4.5, user_id=user.id),
+        Recipe(name="Tomato Soup", ingredients="Tomatoes, Onion, Garlic, Basil", instructions="Blend tomatoes and cook with sautéed onions and garlic, season with basil", rating=4.0, user_id=user.id),
+        Recipe(name="Cheese Omelette", ingredients="Eggs, Cheese, Butter, Salt, Pepper", instructions="Whisk eggs and pour into a frying pan with melted butter, add cheese", rating=3.8, user_id=user.id)
+    ]
+
+    # Add to the database session and commit
+    db.session.add_all(recipes)
+    db.session.commit()
+
+    print("Recipes added successfully!")
+
+
+with app.app_context():
+    add_recipes()
 
 
 if __name__ == '__main__':
