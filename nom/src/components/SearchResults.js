@@ -30,6 +30,7 @@ const SearchResults = () => {
                         <Typography variant="h5">{recipe.name}</Typography>
                         <Typography color="textSecondary">{recipe.ingredients}</Typography>
                         <Typography color="textSecondary">{recipe.instructions}</Typography>
+                        <Typography color='textSecondary'>{recipe.rating}</Typography>
                     </CardContent>
                 </Card>
             ))}
