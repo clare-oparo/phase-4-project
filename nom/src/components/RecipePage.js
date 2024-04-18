@@ -7,7 +7,6 @@ const RecipePage = () => {
   const [recipe, setRecipe] = useState(null);
 
   useEffect(() => {
-    
     fetch(`http://localhost:5000/recipes/${recipeId}`)
       .then(response => response.json())
       .then(data => setRecipe(data.recipe))
@@ -33,7 +32,6 @@ const RecipePage = () => {
           <Typography variant="body1" gutterBottom>
             {recipe.instructions}
           </Typography>
-          
         </div>
       ) : (
         <Typography variant="body1">
@@ -42,6 +40,7 @@ const RecipePage = () => {
       )}
     </Box>
   );
+  
 }
 
 export default RecipePage;

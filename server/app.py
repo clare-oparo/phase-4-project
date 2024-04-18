@@ -166,6 +166,14 @@ def get_recipe_by_id(recipe_id):
         return jsonify({'message': 'Recipe not found'}), 404
     return jsonify({'recipe': recipe.to_dict()})
 
+@app.route('/recipes/<string:recipe_name>', methods=['GET'])
+def get_recipe_by_name(recipe_name):
+    recipe = Recipe.query.filter_by(name=recipe_name).first()
+    if not recipe:
+        return jsonify({'message': 'Recipe not found'}), 404
+    return jsonify({'recipe': recipe.to_dict()})
+
+
 
 @app.route('/<username>/comments', methods=['GET', 'POST'])
 @login_required
