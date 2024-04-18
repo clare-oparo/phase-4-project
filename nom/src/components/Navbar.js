@@ -69,7 +69,7 @@ const Navbar = () => {
                     value={search}
                     onChange={handleSearchChange}
                     placeholder="Find a recipe or ingredient"
-                    sx={{ mr: 2, width: '35%', bgcolor: 'white', borderRadius: '20px',
+                    sx={{ mr: 2, width: '40%', bgcolor: 'white', borderRadius: '20px',
                     '& .MuiOutlinedInput-root': {
                         '& fieldset': {
                             border: 'none' // Remove border
