@@ -68,9 +68,27 @@ const Navbar = () => {
                     value={search}
                     onChange={handleSearchChange}
                     placeholder="Find a recipe or ingredient"
-                    sx={{ mr: 2, width: '50%', bgcolor: 'white', borderRadius: '20px' }}
-                    
-                />
+                    sx={{
+                        mr: 2,
+                        width: '50%',
+                        bgcolor: 'white',
+                        borderRadius: '20px',
+                        '& .MuiOutlinedInput-root': {
+                        '& fieldset': {
+                            border: 'none' // Remove border
+                        },
+                        '&:hover fieldset': {
+                            border: 'none' // Remove border on hover
+                        },
+                        '&.Mui-focused fieldset': {
+                            border: 'none' // Remove border on focus
+                        },
+                        '& .MuiOutlinedInput-notchedOutline': {
+                            border: 'none' // Remove outline
+                        }
+                        }
+                    }}
+                    />
                 <IconButton onClick={handleSearch} sx={{ color: 'white' }}>
                     <SearchIcon /> {/* SearchIcon is here */}
                 </IconButton>
