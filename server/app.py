@@ -66,9 +66,9 @@ def login():
     # Verify the user and password
     if user and bcrypt.checkpw(password.encode('utf-8'), user.password):
         login_user(user)
-        return jsonify({'message': 'Login successful'}), 200
+        return jsonify({'success':True, 'userId':user.id}), 200
     else:
-        return jsonify({'message': 'Invalid credentials'}), 401
+        return jsonify({'success':False, 'message': 'Invalid credentials'}), 401
 
 @app.route('/<string:username>/details', methods=['GET', 'POST', 'PATCH'])
 @login_required
