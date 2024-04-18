@@ -175,6 +175,7 @@ def get_recipe_by_name(recipe_name):
 
 
 
+
 @app.route('/<username>/comments', methods=['GET', 'POST'])
 @login_required
 def manage_user_comments(username):

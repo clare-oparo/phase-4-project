@@ -3,15 +3,15 @@ import { useParams } from 'react-router-dom';
 import { Typography, Box } from '@mui/material';
 
 const RecipePage = () => {
-  const { recipeId } = useParams();
+  const { recipeName } = useParams();
   const [recipe, setRecipe] = useState(null);
 
   useEffect(() => {
-    fetch(`http://localhost:5000/recipes/${recipeId}`)
+    fetch(`http://localhost:5000/recipes/${recipeName}`)
       .then(response => response.json())
       .then(data => setRecipe(data.recipe))
       .catch(error => console.error('Error fetching recipe:', error));
-  }, [recipeId]);
+  }, [recipeName]);
 
   return (
     <Box mt={8} mx="auto" maxWidth="800px">
