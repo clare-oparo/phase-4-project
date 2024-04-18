@@ -4,6 +4,7 @@ from sqlalchemy.orm import validates
 from sqlalchemy.ext.associationproxy import association_proxy
 from sqlalchemy_serializer import SerializerMixin
 from datetime import datetime, timezone
+from flask_login import UserMixin
 
 metadata = MetaData(naming_convention={
     "fk": "fk_%(table_name)s_%(column_0_name)s_%(referred_table_name)s",
@@ -12,7 +13,7 @@ metadata = MetaData(naming_convention={
 db = SQLAlchemy(metadata=metadata)
 
 
-class User(db.Model, SerializerMixin):
+class User(db.Model, SerializerMixin, UserMixin,):
     __tablename__ = 'users'
 
     id = db.Column(db.Integer, primary_key=True)
@@ -22,7 +23,7 @@ class User(db.Model, SerializerMixin):
     details = db.relationship('UserDetail', backref='users', uselist=False, cascade='all, delete-orphan')
     saved_recipes = db.relationship('SavedRecipe', backref='users', lazy=True, cascade='all, delete-orphan')
     comments = db.relationship('Comment', backref='users', lazy=True, cascade='all, delete-orphan')
-
+    is_active = db.Column(db.Boolean(), default=True)
     # Add serialization
     serialize_rules = ('-details', '-saved_recipes', '-comments',)
 
@@ -57,6 +58,15 @@ class Recipe(db.Model, SerializerMixin):
     comments = db.relationship('Comment', backref='recipes', lazy=True, cascade='all, delete-orphan')
 
     # Add serialization
+
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "name": self.name,
+            "ingredients": self.ingredients,
+            "instructions": self.instructions  
+    }
+
     serialize_rules = ('-user', '-comments',)    
 
     def __repr__(self):

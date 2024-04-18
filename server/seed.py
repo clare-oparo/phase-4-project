@@ -10,6 +10,8 @@ def get_random_image():
     images = [f for f in os.listdir(image_folder) if os.path.isfile(os.path.join(image_folder, f))]
     return os.path.join(image_folder, choice(images))
 
+
+
 if __name__ == '__main__':
     with app.app_context():
         print("Clearing db...")
@@ -66,5 +68,5 @@ if __name__ == '__main__':
                 recipe = fake.random_element(Recipe.query.all())
                 saved_recipe = SavedRecipe(user_id=user.id, recipe_id=recipe.id, date_time=datetime.now(timezone.utc))
                 db.session.add(saved_recipe)
-
+        
         db.session.commit()

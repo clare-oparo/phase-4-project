@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Button, TextField, Typography, Box, Container, Alert } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 
+
 const Login = () => {
     const [credentials, setCredentials] = useState({
         username: '',  
@@ -32,7 +33,7 @@ const Login = () => {
         .then(data => {
             if (data.success) {
                 sessionStorage.setItem('userId', data.userId);  
-                navigate('/profile');  
+                navigate('/');  
             } else {
                 setError(data.message || 'Invalid username or password');  
             }

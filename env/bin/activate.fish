@@ -33,7 +33,7 @@ end
 # Unset irrelevant variables.
 deactivate nondestructive
 
-set -gx VIRTUAL_ENV "/home/ikwaro/moringa/projects/phase4/phase-4-project/env"
+set -gx VIRTUAL_ENV "/home/ikwaro/moringa/projects/phase4/4pt2/phase-4-project/env"
 
 set -gx _OLD_VIRTUAL_PATH $PATH
 set -gx PATH "$VIRTUAL_ENV/bin" $PATH

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Button, TextField, Typography, Box, Container, Alert } from '@mui/material';
 import { useNavigate } from 'react-router-dom';  
+import { Link as RouterLink } from 'react-router-dom';
 
 const Register = () => {
     const [formData, setFormData] = useState({
@@ -113,6 +114,10 @@ const Register = () => {
                     {error && <Alert severity="error">{error}</Alert>}
                     {success && <Alert severity="success">{success}</Alert>}
                 </Box>
+                <br></br>
+                <Typography variant="body2" color="textSecondary" align="center">
+                        Already have an account? <RouterLink to="/login">Login here</RouterLink>.
+                    </Typography>
             </Box>
         </Container>
     );

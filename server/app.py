@@ -4,7 +4,9 @@ from flask_migrate import Migrate
 from models import *
 import bcrypt
 import os
-from flask_cors import CORS
+from flask_cors import CORS 
+from models import Recipe
+
 
 BASE_DIR = os.path.abspath(os.path.dirname(__file__))
 DATABASE = os.environ.get(
@@ -64,9 +66,9 @@ def login():
     # Verify the user and password
     if user and bcrypt.checkpw(password.encode('utf-8'), user.password):
         login_user(user)
-        return jsonify({'message': 'Login successful'}), 200
+        return jsonify({'success':True, 'userId':user.id}), 200
     else:
-        return jsonify({'message': 'Invalid credentials'}), 401
+        return jsonify({'success':False, 'message': 'Invalid credentials'}), 401
 
 @app.route('/<string:username>/details', methods=['GET', 'POST', 'PATCH'])
 @login_required
@@ -157,6 +159,23 @@ def manage_user_recipe(username, recipe_id):
         db.session.commit()
         return jsonify({'message': 'Recipe deleted successfully'})
 
+@app.route('/recipes/<int:recipe_id>', methods=['GET'])
+def get_recipe_by_id(recipe_id):
+    recipe = Recipe.query.get(recipe_id)
+    if not recipe:
+        return jsonify({'message': 'Recipe not found'}), 404
+    return jsonify({'recipe': recipe.to_dict()})
+
+@app.route('/recipes/<string:recipe_name>', methods=['GET'])
+def get_recipe_by_name(recipe_name):
+    recipe = Recipe.query.filter_by(name=recipe_name).first()
+    if not recipe:
+        return jsonify({'message': 'Recipe not found'}), 404
+    return jsonify({'recipe': recipe.to_dict()})
+
+
+
+
 @app.route('/<username>/comments', methods=['GET', 'POST'])
 @login_required
 def manage_user_comments(username):
@@ -197,6 +216,18 @@ def get_image(image_name):
     image_path = f'images/{image_name}'
     # Send the image file as a response
     return send_file(image_path)
+
+@app.route('/search')
+def search():
+    query = request.args.get('query', '')
+    if query:
+        
+        recipes = Recipe.query.filter(
+            (Recipe.name.ilike(f'%{query}%')) | (Recipe.ingredients.ilike(f'%{query}%'))
+        ).all()
+        return jsonify([recipe.to_dict() for recipe in recipes])
+    else:
+        return jsonify([])
 
 
 

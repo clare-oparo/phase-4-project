@@ -1,8 +1,13 @@
 import React from 'react';
 import { Button, Typography, Box, Grid, Card, CardActionArea, CardMedia } from '@mui/material';
 import { Link } from 'react-router-dom';
+import { Avatar } from '@mui/material';
+import { Person } from '@mui/icons-material';
+
 
 const Home = () => {
+    
+
     // Sample recipe data with names and images
     const recipes = [
         { name: 'Pasta Carbonara', image: 'https://cdn.pixabay.com/photo/2022/10/10/11/46/fish-7511640_640.jpg' },
@@ -12,8 +17,15 @@ const Home = () => {
         { name: 'Vegetable Stir-Fry', image: 'https://cdn.pixabay.com/photo/2022/05/23/18/59/salmon-7216960_640.jpg' },
     ];
 
+    // Check if the user is logged in
+    const isLoggedIn = sessionStorage.getItem('userId');
+
     return (
+        
         <Box mt={8} style={{ backgroundColor: '#FF5733', padding: '3rem 0' }}>
+            {/* Welcome Message and Profile Icon */}
+       
+
             {/* Hero Section */}
             <Box display="flex" flexDirection={{ xs: 'column', md: 'row' }} alignItems="center" justifyContent="center" mb={4}>
                 {/* Left Section - Description */}
@@ -22,10 +34,10 @@ const Home = () => {
                         Welcome to Nom!
                     </Typography>
                     <Typography variant="body1" gutterBottom style={{ fontSize: '1.8rem', color: '#FFF' }}>
-                        Nom is a vibrant social media platform tailored specifically for passionate cooking aficionados.
+                        We are a vibrant community for anyone who loves cooking!
                     </Typography>
                     <Button variant="contained" color="primary" component={Link} to="/register" style={{ marginTop: '2rem' }}>
-                        Join Now
+                        Join Us
                     </Button>
                 </Box>
 
@@ -72,10 +84,7 @@ const Home = () => {
                         About Nom
                     </Typography>
                     <Typography variant="body1" gutterBottom style={{ fontSize: '1.6rem', color: '#FFF' }}>
-                        It serves as a digital haven where food lovers from all walks of life gather to share their
-                        culinary adventures, recipes, and kitchen triumphs. Whether you're a seasoned chef or an
-                        enthusiastic home cook, Nom provides a welcoming space to connect, inspire, and explore the world
-                        of gastronomy.
+                        Search for recipes, try them out and leave a comment on your favorites!
                     </Typography>
                 </Box>
             </Box>
@@ -86,7 +95,7 @@ const Home = () => {
                     {recipes.map((recipe, index) => (
                         <Grid item key={index}>
                             <Card style={{ maxWidth: 300 }}>
-                                <CardActionArea>
+                                <CardActionArea component={Link} to={`/recipes/${recipe.name}`}>
                                     <CardMedia
                                         component="img"
                                         height="200"
