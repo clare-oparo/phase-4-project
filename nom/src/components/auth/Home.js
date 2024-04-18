@@ -1,6 +1,8 @@
 import React from 'react';
 import { Button, Typography, Box, Grid, Card, CardActionArea, CardMedia } from '@mui/material';
 import { Link } from 'react-router-dom';
+import { Avatar } from '@mui/material';
+import { Person } from '@mui/icons-material';
 
 
 const Home = () => {
@@ -15,8 +17,15 @@ const Home = () => {
         { name: 'Vegetable Stir-Fry', image: 'https://cdn.pixabay.com/photo/2022/05/23/18/59/salmon-7216960_640.jpg' },
     ];
 
+    // Check if the user is logged in
+    const isLoggedIn = sessionStorage.getItem('userId');
+
     return (
+        
         <Box mt={8} style={{ backgroundColor: '#FF5733', padding: '3rem 0' }}>
+            {/* Welcome Message and Profile Icon */}
+       
+
             {/* Hero Section */}
             <Box display="flex" flexDirection={{ xs: 'column', md: 'row' }} alignItems="center" justifyContent="center" mb={4}>
                 {/* Left Section - Description */}

@@ -3,6 +3,7 @@ import { AppBar, Toolbar, Typography, Button, IconButton, Menu, MenuItem, TextFi
 import MenuIcon from '@mui/icons-material/Menu';
 import SearchIcon from '@mui/icons-material/Search';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
+import { Avatar } from '@mui/material';
 
 const Navbar = () => {
     const [anchorEl, setAnchorEl] = useState(null);
@@ -68,12 +69,9 @@ const Navbar = () => {
                     value={search}
                     onChange={handleSearchChange}
                     placeholder="Find a recipe or ingredient"
-                    sx={{
-                        mr: 2,
-                        width: '50%',
-                        bgcolor: 'white',
-                        borderRadius: '20px',
-                        '& .MuiOutlinedInput-root': {
+
+                    sx={{ mr: 2, width: '40%', bgcolor: 'white', borderRadius: '20px',
+                    '& .MuiOutlinedInput-root': {
                         '& fieldset': {
                             border: 'none' // Remove border
                         },
@@ -86,16 +84,19 @@ const Navbar = () => {
                         '& .MuiOutlinedInput-notchedOutline': {
                             border: 'none' // Remove outline
                         }
-                        }
-                    }}
-                    />
+                        }  }}
+                    
+                />
+
                 <IconButton onClick={handleSearch} sx={{ color: 'white' }}>
                     <SearchIcon /> {/* SearchIcon is here */}
                 </IconButton>
-                
+                 {/* Avatar component for user's profile icon */}
+               
                 <Button color="inherit" component={RouterLink} to="/" sx={{ color: 'white' }}>Home</Button>
                 <Button color="inherit" component={RouterLink} to="/login" sx={{ color: 'white' }}>Login</Button>
                 <Button color="inherit" component={RouterLink} to="/register" sx={{ color: 'white' }}>Register</Button>
+                <Avatar alt="User Avatar" src="example.jpg" sx={{ bgcolor: 'secondary.main', ml: 2 }} />
             </Toolbar>
         </AppBar>
     );
