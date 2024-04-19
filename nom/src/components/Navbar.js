@@ -69,6 +69,7 @@ const Navbar = () => {
                     value={search}
                     onChange={handleSearchChange}
                     placeholder="Find a recipe or ingredient"
+
                     sx={{ mr: 2, width: '40%', bgcolor: 'white', borderRadius: '20px',
                     '& .MuiOutlinedInput-root': {
                         '& fieldset': {
@@ -86,6 +87,7 @@ const Navbar = () => {
                         }  }}
                     
                 />
+
                 <IconButton onClick={handleSearch} sx={{ color: 'white' }}>
                     <SearchIcon /> {/* SearchIcon is here */}
                 </IconButton>
