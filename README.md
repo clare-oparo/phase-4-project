@@ -42,13 +42,13 @@ For this project, you must:
 1. Clone this repository to your local machine.
 
 ```bash
-git clone "repository-url"
+git clone git@github.com:clare-oparo/phase-4-project.git
 ```
 
 2. Change into the project directory.
 
 ```bash
-cd maestro-travels_group_2_project
+cd phase-4-project
 ```
 3. Install the required dependencies.
 
